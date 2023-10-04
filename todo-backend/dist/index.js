@@ -10,7 +10,7 @@ const userRoute_1 = __importDefault(require("./routes/userRoute"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const port = 3003;
+const port = 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use('/', userRoute_1.default);

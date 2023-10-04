@@ -2,33 +2,35 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config";
-
-interface Todo {
-    _id: string;
-    title: string;
-    description: string;
-    done: boolean;
-}
-
-type TodoArray = Todo[];
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { todoState } from "../store/atoms/todoState";
 
 
 export default function updatedTodo() {
     let { todoId } = useParams();
-    const navigate = useNavigate()
-    const [todo, setTodo] = useState<TodoArray>([]);
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-
+    const setTodo = useSetRecoilState(todoState);
+    
     useEffect(() => {
         axios.get(`${BASE_URL}/todos/${todoId}`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
             }
-        })
-        .then(res=>{setTodo(res.data);setTitle(res.data.title);setDescription(res.data.description)})
+        }).then((res) => {
+            setTodo({ todo: res.data.todo });
+        });
     }, [todoId]);
+    
+    return (<><UCard/></>)
+    }
+    
+function UCard(){
+    let { todoId } = useParams();
+    const navigate = useNavigate();
+    const [todoDetails,setTodoDetails] = useRecoilState(todoState)
+    const [title,setTitle] = useState<string>(todoDetails.todo?.title || "")
+    const [description,setDescription] = useState<string>(todoDetails.todo?.description|| "")
+
     const handleUpdate = async() => {
         const res = await axios.patch(`${BASE_URL}/todos/${todoId}`, {
             title: title,
@@ -39,10 +41,15 @@ export default function updatedTodo() {
             }
         })
         if(res){
+            let updateTodo={
+                title:title,
+                description:description
+            }
+            setTodoDetails({ todo:updateTodo })
             navigate('/')
         }
+        setTodoDetails({todo:null})
     }
-    if(todo){
         return(<>
             <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -69,6 +76,4 @@ export default function updatedTodo() {
       </div>
     </section>
         </>)
-    }
-    
 }

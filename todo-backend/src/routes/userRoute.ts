@@ -78,6 +78,12 @@ router.post('/addtodos', authenticateJwt, (req, res) => {
       });
   });
   
+  router.get('/todos/:todoId',authenticateJwt,async(req,res)=>{
+    const { todoId } = req.params;
+    const todo = await Todo.findById(todoId);
+    res.json({ todo })
+  })
+
   router.patch('/todos/:todoId', authenticateJwt, async(req, res) => {
     const { todoId } = req.params;
     const updateTodo = await Todo.findByIdAndUpdate(todoId, req.body, { new: true });

@@ -80,6 +80,11 @@ router.get('/todos', authVerify_1.authenticateJwt, (req, res) => {
         res.status(500).json({ error: 'Failed to retrieve todos' });
     });
 });
+router.get('/todos/:todoId', authVerify_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { todoId } = req.params;
+    const todo = yield database_1.Todo.findById(todoId);
+    res.json({ todo });
+}));
 router.patch('/todos/:todoId', authVerify_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { todoId } = req.params;
     const updateTodo = yield database_1.Todo.findByIdAndUpdate(todoId, req.body, { new: true });

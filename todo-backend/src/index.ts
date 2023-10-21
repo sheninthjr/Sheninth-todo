@@ -15,4 +15,4 @@ app.listen(port,()=>{
     console.log(`The server is running on port ${port}`)
 });
 
-mongoose.connect(process.env.MONGO_URL || "",{dbName:"Jr-Todo"});
+mongoose.connect('mongodb+srv://sheninthjr:Sheninth23@todo.on3kfnx.mongodb.net/Jr-Todo',{dbName:"Jr-Todo"});

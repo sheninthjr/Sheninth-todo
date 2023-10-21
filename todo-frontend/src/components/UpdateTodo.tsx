@@ -17,7 +17,7 @@ export default function updatedTodo() {
                 "Authorization": "Bearer " + localStorage.getItem("token")
             }
         }).then((res) => {
-            setTodo({ todo: res.data.todo });
+            setTodo({ title:res.data.title,description:res.data.description });
         });
     }, [todoId]);
     
@@ -28,8 +28,8 @@ function UCard(){
     let { todoId } = useParams();
     const navigate = useNavigate();
     const [todoDetails,setTodoDetails] = useRecoilState(todoState)
-    const [title,setTitle] = useState<string>(todoDetails.todo?.title || "")
-    const [description,setDescription] = useState<string>(todoDetails.todo?.description|| "")
+    const [title,setTitle] = useState<string>(todoDetails.title || "")
+    const [description,setDescription] = useState<string>(todoDetails.description|| "")
 
     const handleUpdate = async() => {
         const res = await axios.patch(`${BASE_URL}/todos/${todoId}`, {
@@ -41,14 +41,10 @@ function UCard(){
             }
         })
         if(res){
-            let updateTodo={
-                title:title,
-                description:description
-            }
-            setTodoDetails({ todo:updateTodo })
+            setTodoDetails({ title:res.data.title,description:res.data.description  })
             navigate('/')
         }
-        setTodoDetails({todo:null})
+        setTodoDetails({title:"",description:""})
     }
         return(<>
             <section className="bg-gray-50 dark:bg-gray-900">

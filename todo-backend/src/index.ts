@@ -9,7 +9,9 @@ const app = express();
 const port = process.env.BACKEND_PORT || 3000;
 app.use(cors());
 app.use(express.json());
-app.use('/',userRoute);
+app.use('/',userRoute,(req,res)=>{
+    res.json("Hi there")
+});
 
 app.listen(port,()=>{
     console.log(`The server is running on port ${port}`)

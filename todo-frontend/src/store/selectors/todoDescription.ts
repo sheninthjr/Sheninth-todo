@@ -6,8 +6,8 @@ export const todoDescription = selector({
     key:"todoDescription",
     get : ({get})=>{
         const state= get(todoState)
-        if(state.todo){
-            return state.todo.description;
+        if(state.description){
+            return state.description;
         }
         return ""
     }

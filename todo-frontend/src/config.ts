@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://ec2-3-25-221-108.ap-southeast-2.compute.amazonaws.com';
+export const BASE_URL = 'https://todo.sheninthjr.com';
